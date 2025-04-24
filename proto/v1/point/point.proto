@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package point;
+
+option go_package = "github.com/syedomair/backend-k8/proto/v1/point";
+
+message PointRequest {
+    string user_id = 1;
+}
+
+message PointReply {
+    string user_point = 1;
+}
+
+message UserListRequest {
+    repeated string user_ids = 1;
+}
+
+message UserListPointResponse {
+    map<string, int32> user_points = 1;
+}
+
+service PointServer {
+    rpc GetUserPoints(PointRequest) returns (PointReply);
+    rpc GetUserListPoints(UserListRequest) returns (UserListPointResponse);
+}
