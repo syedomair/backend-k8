@@ -1,0 +1,26 @@
+kubectl apply -f zap-logger-config.yaml
+kubectl apply -f gorm-logger-config.yaml
+
+kubectl apply -f all-configmap.yaml
+
+kubectl apply -f user-deployment.yaml
+kubectl apply -f user-service.yaml
+
+kubectl apply -f department-deployment.yaml
+kubectl apply -f department-service.yaml
+
+kubectl apply -f point-deployment.yaml
+kubectl apply -f point-service.yaml
+
+kubectl apply -f postgres-pvc.yaml
+kubectl apply -f postgres-secret.yaml
+kubectl apply -f postgres-configmap.yaml
+
+kubectl apply -f postgres-deployment.yaml
+kubectl apply -f postgres-service.yaml
+
+
+
+kubectl get pods
+kubectl get services
+minikube service user-service

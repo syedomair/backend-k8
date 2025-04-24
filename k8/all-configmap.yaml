@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: all-service-config
+data:
+  LOG_LEVEL: "DEBUG"
+  PORT: "8185"
+  DB: "POSTGRES"
+  DB_MAX_IDLE: "10"
+  DB_MAX_OPEN: "100"
+  DB_MAX_LIFE_TIME: "1"
+  DB_MAX_IDLE_TIME: "10"
+  ZAP_CONF: "/config/zap-logger-config.json"
+  GORM_CONF: "/config/gorm-logger-config.json"
+  PPROF_ENABLE: "false"
+  POINT_SRVC_ADDR: "point-service:8185"
+  POINT_SRVC_MAX: "10"
