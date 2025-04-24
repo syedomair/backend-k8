@@ -36,3 +36,23 @@ protoc_point_v1:
 	--go-grpc_out=. \
 	--go-grpc_opt=paths=source_relative \
 	proto/v1/point/point.proto
+
+deploy_to_k8:
+	docker build -t user-service:latest -f service/user_service/Dockerfile .
+	docker build -t department-service:latest -f service/department_service/Dockerfile .
+	docker build -t point-service:latest -f service/point_service/Dockerfile .
+	kubectl create secret generic all-service-secret --from-env-file=k8/.env_local
+	kubectl apply -f k8/zap-logger-config.yaml
+	kubectl apply -f k8/gorm-logger-config.yaml
+	kubectl apply -f k8/all-configmap.yaml
+	kubectl apply -f k8/user-deployment.yaml
+	kubectl apply -f k8/user-service.yaml
+	kubectl apply -f k8/department-deployment.yaml
+	kubectl apply -f k8/department-service.yaml
+	kubectl apply -f k8/point-deployment.yaml
+	kubectl apply -f k8/point-service.yaml
+	kubectl apply -f k8/postgres-pvc.yaml
+	kubectl apply -f k8/postgres-secret.yaml
+	kubectl apply -f k8/postgres-configmap.yaml
+	kubectl apply -f k8/postgres-deployment.yaml
+	kubectl apply -f k8/postgres-service.yaml
