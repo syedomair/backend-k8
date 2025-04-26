@@ -1,0 +1,6 @@
+apiVersion: v2
+name: common-service
+description: A Helm chart for common-service application
+type: application
+version: 0.1.0
+appVersion: "1.0"

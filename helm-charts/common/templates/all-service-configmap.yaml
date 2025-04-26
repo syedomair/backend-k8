@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: all-service-config
+data:
+  LOG_LEVEL: "{{ .Values.config.LOG_LEVEL }}"
+  PORT: "{{ .Values.config.PORT }}"
+  DB: "{{ .Values.config.DB }}"
+  DB_MAX_IDLE: "{{ .Values.config.DB_MAX_IDLE }}"
+  DB_MAX_OPEN: "{{ .Values.config.DB_MAX_OPEN }}"
+  DB_MAX_LIFE_TIME: "{{ .Values.config.DB_MAX_LIFE_TIME }}"
+  DB_MAX_IDLE_TIME: "{{ .Values.config.DB_MAX_IDLE_TIME }}"
+  ZAP_CONF: "{{ .Values.config.ZAP_CONF }}"
+  GORM_CONF: "{{ .Values.config.GORM_CONF }}"
+  PPROF_ENABLE: "{{ .Values.config.PPROF_ENABLE }}"
+  POINT_SRVC_ADDR: "{{ .Values.config.POINT_SRVC_ADDR }}"
+  POINT_SRVC_MAX: "{{ .Values.config.POINT_SRVC_MAX }}"
