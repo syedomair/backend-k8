@@ -32,3 +32,18 @@ cd istio-*
 export PATH=$PWD/bin:$PATH
 
 istioctl install --set profile=default -y
+
+
+
+set -o allexport
+source .env_local
+set +o allexport
+
+echo $DATABASE_URL
+
+
+envsubst < helm-charts/common/values.yaml | helm upgrade common helm-charts/common -f - 
+
+helm upgrade point-service helm-charts/point-service
+helm upgrade user-service helm-charts/user-service
+helm upgrade department-service helm-charts/department-service
