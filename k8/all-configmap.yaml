@@ -13,5 +13,5 @@ data:
   ZAP_CONF: "/config/zap-logger-config.json"
   GORM_CONF: "/config/gorm-logger-config.json"
   PPROF_ENABLE: "false"
-  POINT_SRVC_ADDR: "point-service:8185"
+  POINT_SRVC_ADDR: "point-service.default.svc.cluster.local:8185"
   POINT_SRVC_MAX: "10"

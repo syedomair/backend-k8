@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: department-service
+  annotations:
+    sidecar.istio.io/inject: "true"
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - app-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /department/
+    rewrite:
+      uri: /  
+    route:
+    - destination:
+        host: department-service
+        port:
+          number: 5002
