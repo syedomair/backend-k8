@@ -9,9 +9,9 @@ run_docker:
 	docker compose --env-file .env_local up       
 
 clean_docker:
-	docker rmi -f bk-user_service
-	docker rmi -f bk-department_service
-	docker rmi -f bk-point_service
+	docker rmi -f user-service
+	docker rmi -f department-service
+	docker rmi -f point-service
 
 clean_point:
 	docker container rm -f $$(docker ps -aq)
@@ -41,7 +41,6 @@ deploy_to_k8:
 	docker build -t user-service:latest -f service/user_service/Dockerfile .
 	docker build -t department-service:latest -f service/department_service/Dockerfile .
 	docker build -t point-service:latest -f service/point_service/Dockerfile .
-	kubectl create secret generic all-service-secret --from-env-file=k8/.env_local
 	kubectl apply -f k8/zap-logger-config.yaml
 	kubectl apply -f k8/gorm-logger-config.yaml
 	kubectl apply -f k8/all-configmap.yaml
@@ -56,3 +55,13 @@ deploy_to_k8:
 	kubectl apply -f k8/postgres-configmap.yaml
 	kubectl apply -f k8/postgres-deployment.yaml
 	kubectl apply -f k8/postgres-service.yaml
+	
+deploy_secret:
+	kubectl create secret generic all-service-secret --from-env-file=k8/.env_local
+
+deploy_istio:
+	kubectl label namespace default istio-injection=enabled
+	kubectl apply -f k8/istio/gateway.yaml
+	kubectl apply -f k8/istio/user-service-virtualservice.yaml
+	kubectl apply -f k8/istio/department-service-virtualservice.yaml
+	kubectl apply -f k8/istio/point-service-virtualservice.yaml

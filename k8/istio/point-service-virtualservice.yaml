@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: point-service
+  annotations:
+    sidecar.istio.io/inject: "true"
+spec:
+  hosts:
+    - point-service.default.svc.cluster.local
+  gateways:
+    - mesh   # Means internal service-to-service traffic
+  tcp:
+    - match:
+        - port: 8185
+      route:
+        - destination:
+            host: point-service.default.svc.cluster.local
+            port:
+              number: 8185
