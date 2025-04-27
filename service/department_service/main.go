@@ -53,7 +53,7 @@ func main() {
 				Addr:    ":6060",
 				Handler: mux,
 			}
-			c.Logger().Info("starting pprof server on :6060")
+			c.Logger().Info("starting pprof server on  :6060")
 			if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 				c.Logger().Fatal("server failed", zap.Error(err))
 			}

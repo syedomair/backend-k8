@@ -41,7 +41,7 @@ func main() {
 
 	server, err := server.NewServer(c)
 	if err != nil {
-		c.Logger().Fatal("failed to create server :", zap.Error(err))
+		c.Logger().Fatal("failed to create server  :", zap.Error(err))
 	}
 
 	go func() {

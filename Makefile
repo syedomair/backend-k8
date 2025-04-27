@@ -37,10 +37,13 @@ protoc_point_v1:
 	--go-grpc_opt=paths=source_relative \
 	proto/v1/point/point.proto
 
-deploy_to_k8:
+build_images:
+	eval $(minikube docker-env)
 	docker build -t user-service:latest -f service/user_service/Dockerfile .
 	docker build -t department-service:latest -f service/department_service/Dockerfile .
 	docker build -t point-service:latest -f service/point_service/Dockerfile .
+
+deploy_to_k8:
 	kubectl apply -f k8/zap-logger-config.yaml
 	kubectl apply -f k8/gorm-logger-config.yaml
 	kubectl apply -f k8/all-configmap.yaml

@@ -1,0 +1,17 @@
+# values.yaml
+postgresql:
+  image: postgres:latest
+  replicas: 1
+  servicePort: 5432
+  storageSize: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  initScript:
+    enabled: true
+    configMapName: postgres-init-script # Name of the ConfigMap
+  name: postgres
+  pvcName: postgres-pvc 
+  secretName: postgres-secret # Name of the Secret
+  usernameKey: "$POSTGRES_USER"
+  passwordKey: "$POSTGRES_PASSWORD"
+  databaseKey: "$POSTGRES_DB"
