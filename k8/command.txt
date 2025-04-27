@@ -32,6 +32,7 @@ cd istio-*
 export PATH=$PWD/bin:$PATH
 
 istioctl install --set profile=default -y
+ kubectl label namespace default istio-injection=enabled
 
 
 

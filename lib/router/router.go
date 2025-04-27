@@ -81,6 +81,11 @@ func NewRouter(logger *zap.Logger, routes []EndPoint) *chi.Mux {
 		w.WriteHeader(http.StatusOK)
 	})
 
+	// Ready check
+	router.Get("/ready", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
+
 	// Prometheus metrics endpoint
 	router.Handle("/metrics", promhttp.Handler())
 

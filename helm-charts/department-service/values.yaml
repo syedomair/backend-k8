@@ -4,6 +4,8 @@ image:
   repository: department-service
   tag: latest
   pullPolicy: IfNotPresent
+  initialDelaySeconds: 5
+  periodSeconds: 10
 
 containerPort: 8185
 
