@@ -1,6 +1,5 @@
-# Chart.yaml
 apiVersion: v2
-name: postgres
+name: db
 description: A basic PostgreSQL deployment with initialization script
 type: application
 version: 0.1.0

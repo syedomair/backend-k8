@@ -38,7 +38,6 @@ protoc_point_v1:
 	proto/v1/point/point.proto
 
 build_images:
-	eval $(minikube docker-env)
 	docker build -t user-service:latest -f service/user_service/Dockerfile .
 	docker build -t department-service:latest -f service/department_service/Dockerfile .
 	docker build -t point-service:latest -f service/point_service/Dockerfile .
@@ -68,3 +67,13 @@ deploy_istio:
 	kubectl apply -f k8/istio/user-service-virtualservice.yaml
 	kubectl apply -f k8/istio/department-service-virtualservice.yaml
 	kubectl apply -f k8/istio/point-service-virtualservice.yaml
+
+deploy_helm_install:
+	helm install department-service helm-charts/department-service
+	helm install point-service helm-charts/point-service
+	helm install user-service helm-charts/user-service
+
+deploy_helm_upgrade:
+	helm upgrade department-service helm-charts/department-service
+	helm upgrade point-service helm-charts/point-service
+	helm upgrade user-service helm-charts/user-service
