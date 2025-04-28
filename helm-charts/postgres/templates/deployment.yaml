@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  {{ .Release.Name }}
+  name: {{ .Values.deployment.name }}
 spec:
-  replicas: {{ .Values.postgresql.replicas }}
+  replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.postgresql.name }}
+      app: postgres
   template:
     metadata:
       labels:
-        app: {{ .Values.postgresql.name }}
+        app: postgres
     spec:
       containers:
-        - name: {{ .Values.postgresql.name }}
-          image: {{ .Values.postgresql.image }}
+        - name: postgres
+          image: {{ .Values.deployment.image }}
           ports:
-            - containerPort: {{ .Values.postgresql.servicePort }}
+            - containerPort: 5432
           envFrom:
             - secretRef:
-                name: {{ .Values.postgresql.secretName }}
+                name: {{ .Values.secret.name }}
           volumeMounts:
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
@@ -29,10 +29,10 @@ spec:
       volumes:
         - name: postgres-data
           persistentVolumeClaim:
-            claimName: {{ .Values.postgresql.pvcName }}
+            claimName: {{ .Values.persistentVolumeClaim.name }}
         - name: init-script
           configMap:
-            name: {{ .Values.postgresql.initScript.configMapName }}
+            name: {{ .Values.configMap.name }}
             items:
               - key: migration.sql
                 path: migration.sql

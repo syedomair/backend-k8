@@ -1,6 +1,0 @@
-apiVersion: v2
-name: db
-description: A basic PostgreSQL deployment with initialization script
-type: application
-version: 0.1.0
-appVersion: "17" # You can adjust the default PostgreSQL version
