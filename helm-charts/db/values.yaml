@@ -1,4 +1,3 @@
-# values.yaml
 postgresql:
   image: postgres:latest
   replicas: 1
@@ -10,8 +9,8 @@ postgresql:
     enabled: true
     configMapName: postgres-init-script # Name of the ConfigMap
   name: postgres
-  pvcName: postgres-pvc 
-  secretName: postgres-secret # Name of the Secret
+  pvcName: postgres-pvc
+  secretName: postgres-secret
   usernameKey: "$POSTGRES_USER"
   passwordKey: "$POSTGRES_PASSWORD"
   databaseKey: "$POSTGRES_DB"
