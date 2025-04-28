@@ -29,3 +29,9 @@ ingress:
   enabled: false
 
 resources: {}
+
+hpa:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 50
