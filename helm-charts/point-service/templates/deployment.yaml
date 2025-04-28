@@ -19,15 +19,13 @@ spec:
           ports:
             - containerPort: {{ .Values.containerPort }}
           livenessProbe:
-            httpGet:
-              path: /health
-              port: {{ .Values.containerPort }}
+            grpc:
+              port: {{ .Values.containerPort }}   
             initialDelaySeconds: {{ .Values.initialDelaySeconds }}
             periodSeconds: {{ .Values.periodSeconds }}
           readinessProbe:
-            httpGet:
-              path: /ready
-              port: {{ .Values.containerPort }}
+            grpc:
+              port: {{ .Values.containerPort }}   
             initialDelaySeconds: {{ .Values.initialDelaySeconds }}
             periodSeconds: {{ .Values.periodSeconds }}
           resources:

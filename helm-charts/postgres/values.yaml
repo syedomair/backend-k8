@@ -1,0 +1,22 @@
+# values.yaml
+service:
+  name: db
+  port: 5432
+
+secret:
+  name: postgres-secret
+  postgresUser: myuser
+  postgresPassword: mypassword
+  postgresDB: mydb
+
+persistentVolumeClaim:
+  name: postgres-pvc
+  storageSize: 1Gi
+
+deployment:
+  name: postgres
+  image: postgres:latest
+  replicas: 1
+
+configMap:
+  name: postgres-init-script

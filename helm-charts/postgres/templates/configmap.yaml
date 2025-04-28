@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.postgresql.initScript.configMapName }}
+  name: {{ .Values.configMap.name }}
 data:
   migration.sql: |
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp";  -- Enable UUID extension if not already enabled
@@ -24,12 +24,12 @@ data:
     CREATE TABLE IF NOT EXISTS public.points (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),  -- Generate a new UUID by default
     user_id UUID REFERENCES public.user(id) ON DELETE SET NULL,  -- Foreign key constraint
-    points INT
+    points INT 
     );
 
-    INSERT INTO department
-     (name, address)
-      VALUES
+    INSERT INTO department 
+     (name, address) 
+    	VALUES
      ('Human Resources', '123 Main St, Springfield'),
      ('Finance', '456 Elm St, Springfield'),
      ('IT Support', '789 Oak St, Springfield');
@@ -58,3 +58,5 @@ data:
       ((select id from public.user where email = 'george.costanza@example.com'), 93),
       ((select id from public.user where email = 'hannah.baker@example.com'), 13),
       ((select id from public.user where email = 'ian.malcolm@example.com'), 73);
+
+
