@@ -52,3 +52,26 @@ envsubst < helm-charts/postgres/values.yaml | helm upgrade postgres helm-charts/
 helm upgrade point-service helm-charts/point-service
 helm upgrade user-service helm-charts/user-service
 helm upgrade department-service helm-charts/department-service
+
+
+kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.29.0/controller.yaml
+
+wget "https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.29.0/kubeseal-0.29.0-linux-amd64.tar.gz"
+tar -xvzf kubeseal-0.29.0-linux-amd64.tar.gz kubeseal
+sudo install -m 755 kubeseal /usr/local/bin/kubeseal
+
+kubectl create secret generic my-secrets --from-env-file=.env_local --dry-run=client -o json | \
+kubeseal --format yaml --cert my-sealed-secrets-public-key.pem > helm-charts/common/templates/sealedsecret.yaml
+
+
+point GRPC
+          livenessProbe:
+            grpc:
+              port: {{ .Values.containerPort }}   
+            initialDelaySeconds: {{ .Values.initialDelaySeconds }}
+            periodSeconds: {{ .Values.periodSeconds }}
+          readinessProbe:
+            grpc:
+              port: {{ .Values.containerPort }}   
+            initialDelaySeconds: {{ .Values.initialDelaySeconds }}
+            periodSeconds: {{ .Values.periodSeconds }}
