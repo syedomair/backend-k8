@@ -9,10 +9,10 @@ spec:
     - point-service.default.svc.cluster.local
   tcp:
     - match:
-        - port: {{ .Values.service.port }}
+        - port: {{ .Values.containerPort }}
       route:
         - destination:
             host: point-service.default.svc.cluster.local
             port:
-              number: {{ .Values.service.port }}
+              number: {{ .Values.containerPort }}
 

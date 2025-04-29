@@ -20,3 +20,9 @@ config:
 
 gateway:
   name: app-gateway
+
+clusterIssuer:
+  name: selfsigned-issuer
+
+ingressCert:
+  name: my-ingress-cert
