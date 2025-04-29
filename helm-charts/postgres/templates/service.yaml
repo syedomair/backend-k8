@@ -6,5 +6,6 @@ spec:
   selector:
     app: postgres
   ports:
-    - port: {{ .Values.service.port }}
+    - name: tcp-postgres
+      port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.port }}

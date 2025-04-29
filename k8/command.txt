@@ -63,6 +63,7 @@ sudo install -m 755 kubeseal /usr/local/bin/kubeseal
 kubectl create secret generic my-secrets --from-env-file=.env_local --dry-run=client -o json | \
 kubeseal --format yaml --cert my-sealed-secrets-public-key.pem > helm-charts/common/templates/sealedsecret.yaml
 
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.4/cert-manager.yaml
 
 point GRPC
           livenessProbe:
@@ -75,3 +76,9 @@ point GRPC
               port: {{ .Values.containerPort }}   
             initialDelaySeconds: {{ .Values.initialDelaySeconds }}
             periodSeconds: {{ .Values.periodSeconds }}
+
+
+istioctl proxy-config listeners istio-ingressgateway-64d5c8dbf4-fvrpn  -n istio-system
+istioctl analyze
+
+kubectl describe gateway app-gateway -n default
