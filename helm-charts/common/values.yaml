@@ -17,3 +17,6 @@ config:
   PPROF_ENABLE: "false"
   POINT_SRVC_ADDR: "point-service.default.svc.cluster.local:8185"
   POINT_SRVC_MAX: "10"
+
+gateway:
+  name: app-gateway
