@@ -5,9 +5,6 @@ service:
 
 secret:
   name: postgres-secret
-  postgresUser: myuser
-  postgresPassword: mypassword
-  postgresDB: mydb
 
 persistentVolumeClaim:
   name: postgres-pvc

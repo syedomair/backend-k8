@@ -1,7 +1,5 @@
 .PHONY : 
 
-include .env_local
-export
 
 
 run_docker:
@@ -69,11 +67,15 @@ deploy_istio:
 	kubectl apply -f k8/istio/point-service-virtualservice.yaml
 
 deploy_helm_install:
+	helm install common helm-charts/common
+	helm install postgres helm-charts/postgres
 	helm install department-service helm-charts/department-service
 	helm install point-service helm-charts/point-service
 	helm install user-service helm-charts/user-service
 
 deploy_helm_upgrade:
+	helm upgrade common helm-charts/common
+	helm upgrade postgres helm-charts/postgres
 	helm upgrade department-service helm-charts/department-service
 	helm upgrade point-service helm-charts/point-service
 	helm upgrade user-service helm-charts/user-service
