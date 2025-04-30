@@ -82,3 +82,31 @@ istioctl proxy-config listeners istio-ingressgateway-64d5c8dbf4-fvrpn  -n istio-
 istioctl analyze
 
 kubectl describe gateway app-gateway -n default
+
+
+AGRO CD
+----------
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+ https://localhost:8080  admin/ 
+
+ khalid@khalid-Latitude-7400:~$ kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server
+NAME                             READY   STATUS    RESTARTS   AGE
+argocd-server-68789d47c9-pkw6q   1/1     Running   0          4m5s
+khalid@khalid-Latitude-7400:~$ kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d && echo
+7FF2ocx81xeukTtm
+user-service-app.yaml
+
+
+
+kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.29.0/controller.yaml
+kubeseal --format yaml < mysecret.yaml > mysealedsecret.yaml
+
+
+kubeseal --fetch-cert --controller-name=sealed-secrets-controller --controller-namespace=kube-system > my-sealed-secrets-public-key.pem
+kubectl create secret generic my-secrets --from-env-file=.env_local --dry-run=client -o json | \
+kubeseal --format yaml --cert my-sealed-secrets-public-key.pem > helm-charts/common/templates/sealedsecret.yaml
+

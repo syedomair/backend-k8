@@ -1,8 +1,4 @@
 
-# For Secrets
-secrets:
-  DATABASE_URL: "$DATABASE_URL"
-
 # For configmap
 config:
   LOG_LEVEL: "DEBUG"

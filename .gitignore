@@ -1,2 +1,3 @@
 
-
+helm-charts/common/templates/all-service-secret.txt
+helm-charts/postgres/templates/postgres-secret.txt
