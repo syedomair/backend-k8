@@ -1,5 +1,15 @@
 name: GitOps Deploy
 
+- name: Push updated Chart.yaml files
+  run: |
+    git config user.name "github-actions[bot]"
+    git config user.email "github-actions[bot]@users.noreply.github.com"
+    git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}
+    git commit -am "ci: bump chart versions to $VERSION" || echo "No changes"
+    git push
+
+
+
 on:
   push:
     branches:
@@ -32,5 +42,8 @@ jobs:
           fi
         done
 
-        git commit -m "ci: bump chart versions to $VERSION" || echo "No changes"
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}
+        git commit -am "ci: bump chart versions to $VERSION" || echo "No changes"
         git push
