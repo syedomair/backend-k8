@@ -1,0 +1,36 @@
+name: GitOps Deploy
+
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - 'helm-charts/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Git
+      run: |
+        git config --global user.email "ci@yourdomain.com"
+        git config --global user.name "GitOps Bot"
+
+    - name: Bump chart versions for all services
+      run: |
+        VERSION=$(date +%Y%m%d%H%M)
+
+        for chart in helm-charts/*; do
+          if [ -f "$chart/Chart.yaml" ]; then
+            echo "Bumping version in $chart"
+            sed -i "s/^version:.*/version: \"$VERSION\"/" "$chart/Chart.yaml"
+            git add "$chart/Chart.yaml"
+          fi
+        done
+
+        git commit -m "ci: bump chart versions to $VERSION" || echo "No changes"
+        git push
