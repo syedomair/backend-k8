@@ -87,3 +87,14 @@ ms:
 	minikube start
 	~/istio-1.25.2/bin/istioctl install --set profile=default -y
 	kubectl label namespace default istio-injection=enabled
+
+ag:
+	kubectl create namespace argocd
+	kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+agi:
+	kubectl apply -f agrocd/common-app.yaml
+	kubectl apply -f agrocd/postgres-app.yaml
+	kubectl apply -f agrocd/point-service-app.yaml
+	kubectl apply -f agrocd/user-service-app.yaml
+	kubectl apply -f agrocd/department-service-app.yaml
