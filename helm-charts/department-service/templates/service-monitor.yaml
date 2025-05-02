@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: department-service
+  labels:
+    release: monitoring  
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: department-service
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s

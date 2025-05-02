@@ -3,6 +3,7 @@ package router
 import (
 	"context"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/go-chi/chi"
@@ -44,8 +45,9 @@ var (
 
 	httpDuration = prometheus.NewHistogramVec(
 		prometheus.HistogramOpts{
-			Name: "http_response_time_seconds",
-			Help: "HTTP response time distribution",
+			Name:    "http_response_time_seconds",
+			Help:    "HTTP response time distribution",
+			Buckets: prometheus.DefBuckets,
 		},
 		[]string{"endpoint"},
 	)
@@ -125,9 +127,11 @@ func prometheusMiddleware(next http.Handler) http.Handler {
 		next.ServeHTTP(ww, r)
 
 		duration := time.Since(start)
-		endpoint := r.URL.Path
+		status := strconv.Itoa(ww.Status())
 
-		httpRequestsTotal.WithLabelValues(r.Method, endpoint, string(rune(ww.Status()))).Inc()
-		httpDuration.WithLabelValues(endpoint).Observe(duration.Seconds())
+		routePattern := chi.RouteContext(r.Context()).RoutePattern()
+
+		httpRequestsTotal.WithLabelValues(r.Method, routePattern, status).Inc()
+		httpDuration.WithLabelValues(routePattern).Observe(duration.Seconds())
 	})
 }
