@@ -110,3 +110,15 @@ kubeseal --fetch-cert --controller-name=sealed-secrets-controller --controller-n
 kubectl create secret generic my-secrets --from-env-file=.env_local --dry-run=client -o json | \
 kubeseal --format yaml --cert my-sealed-secrets-public-key.pem > helm-charts/common/templates/sealedsecret.yaml
 
+
+
+Monitoring
+------------
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+
+kubectl create namespace monitoring
+helm install monitoring prometheus-community/kube-prometheus-stack  --namespace monitoring
+kubectl get pods -n monitoring
+kubectl port-forward svc/monitoring-grafana 3000:80 -n monitoring
+
