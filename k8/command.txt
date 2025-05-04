@@ -122,3 +122,13 @@ helm install monitoring prometheus-community/kube-prometheus-stack  --namespace 
 kubectl get pods -n monitoring
 kubectl port-forward svc/monitoring-grafana 3000:80 -n monitoring
 
+Loki
+------
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+helm upgrade --install loki-stack grafana/loki-stack \
+  --namespace monitoring \
+  --create-namespace \
+  --set grafana.enabled=true \
+  --set promtail.enabled=true
+
