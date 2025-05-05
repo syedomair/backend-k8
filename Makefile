@@ -77,9 +77,17 @@ hi:
 	kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.29.0/controller.yaml
 	helm install common helm-charts/common
 	helm install postgres helm-charts/postgres
+	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+	helm repo update
+	kubectl create namespace monitoring
+	helm install monitoring prometheus-community/kube-prometheus-stack  --namespace monitoring
+	helm repo add grafana https://grafana.github.io/helm-charts
+	helm repo update
+	helm upgrade --install loki-stack grafana/loki-stack  --namespace monitoring  --create-namespace  --set grafana.enabled=true  --set promtail.enabled=true
 	helm install department-service helm-charts/department-service
 	helm install point-service helm-charts/point-service
 	helm install user-service helm-charts/user-service
+
 
 hu:
 	helm upgrade common helm-charts/common

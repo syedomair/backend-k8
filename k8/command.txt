@@ -132,3 +132,10 @@ helm upgrade --install loki-stack grafana/loki-stack \
   --set grafana.enabled=true \
   --set promtail.enabled=true
 
+
+
+
+
+grafana
+---------
+kubectl port-forward svc/monitoring-grafana 3000:80 -n monitoring
