@@ -1,0 +1,51 @@
+
+
+ms
+bi
+hi
+hsi
+
+kubectl get pods -n default 
+
+
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts 
+helm repo update
+kubectl create namespace monitoring
+helm install monitoring prometheus-community/kube-prometheus-stack --namespace monitoring
+
+kubectl get pods -n monitoring
+kubectl port-forward svc/monitoring-grafana 30000:80 -n monitoring
+http://localhost:30000
+
+kubectl get secret --namespace monitoring monitoring-grafana -o jsonpath="{.data.admin-password}" | base64 -d
+prom-operator
+
+hsi
+--helm upgrade user-service helm-charts/user-service 
+--helm upgrade department-service helm-charts/department-service
+
+
+And in Grafana:
+Go to Explore → Pick Prometheus
+Type a query like: go_threads or your custom metric
+Add Prometheus as a Data Source
+
+In Grafana, go to Gear (⚙️) → Data Sources.
+Click “Add data source”.
+Choose Prometheus.
+Set the URL to:http://prometheus-operated.monitoring.svc:9090
+(or use port-forwarding to localhost:9090 if not in-cluster)
+Click “Save & Test”.
+
+Go to “+” → Dashboard → “Add new panel”.
+Use queries like:
+🔹 Total Requests:
+sum by (method, endpoint, status) (http_requests_total)
+🔹 Request Rate (per second):
+rate(http_requests_total[1m])
+🔹 Response Duration:
+histogram_quantile(0.95, sum(rate(http_response_time_seconds_bucket[5m])) by (le, endpoint))
+
+
+kubectl port-forward svc/user-service 5001
+curl http://localhost:5001/metrics
