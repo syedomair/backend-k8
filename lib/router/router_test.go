@@ -18,7 +18,8 @@ func TestNewRouter(t *testing.T) {
 			HandlerFunc: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {}),
 		},
 	}
-	router := NewRouter(logger, routes)
+	emptyRoute := []EndPoint{}
+	router := NewRouter(logger, routes, emptyRoute)
 	if router == nil {
 		t.Errorf("Expected router to be not nil, got nil")
 	}

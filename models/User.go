@@ -37,3 +37,15 @@ type ResponseUser struct {
 	Count      string      `json:"count" `
 	List       interface{} `json:"list" `
 }
+
+type ResponseUser2 struct {
+	HighAge     string      `json:"high_age" `
+	LowAge      string      `json:"low_age" `
+	AvgAge      string      `json:"avg_age" `
+	HighSalary  string      `json:"high_salary" `
+	LowSalary   string      `json:"low_salary" `
+	AvgSalary   string      `json:"avg_salary" `
+	TotalPoints string      `json:"total_points" `
+	Count       string      `json:"count" `
+	List        interface{} `json:"list" `
+}
