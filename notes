@@ -3,6 +3,7 @@
 ms
 bi
 hi
+hm
 hsi
 
 kubectl get pods -n default 

@@ -62,7 +62,7 @@ func main() {
 	}
 
 	// Create router
-	router := router.NewRouter(c.Logger(), EndPointConf(c))
+	router := router.NewRouter(c.Logger(), EndPointConf(c), EndPointConf2(c))
 
 	if err := Run(router, c); err != nil {
 		log.Fatalf("server error: %v", err)

@@ -23,3 +23,21 @@ func EndPointConf(c container.Container) []router.EndPoint {
 		},
 	}
 }
+
+func EndPointConf2(c container.Container) []router.EndPoint {
+
+	userController := user.Controller{
+		Logger:                     c.Logger(),
+		Repo:                       user.NewDBRepository(c.Db(), c.Logger()),
+		PointServiceConnectionPool: c.PointServicePool(),
+	}
+
+	return []router.EndPoint{
+		{
+			Name:        "GetAllUser2",
+			Method:      router.Get,
+			Pattern:     "/users",
+			HandlerFunc: userController.GetAllUsers2,
+		},
+	}
+}

@@ -56,7 +56,7 @@ var (
 func init() {
 	prometheus.MustRegister(httpRequestsTotal, httpDuration)
 }
-func NewRouter(logger *zap.Logger, routes []EndPoint) *chi.Mux {
+func NewRouter(logger *zap.Logger, routes []EndPoint, routes2 []EndPoint) *chi.Mux {
 	router := chi.NewRouter()
 
 	// Common middleware
@@ -74,6 +74,12 @@ func NewRouter(logger *zap.Logger, routes []EndPoint) *chi.Mux {
 	// Routes
 	router.Route("/v1", func(r chi.Router) {
 		for _, route := range routes {
+			r.Method(route.Method, route.Pattern, route.HandlerFunc)
+		}
+	})
+
+	router.Route("/v2", func(r chi.Router) {
+		for _, route := range routes2 {
 			r.Method(route.Method, route.Pattern, route.HandlerFunc)
 		}
 	})
