@@ -1,14 +1,27 @@
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: api-gateway
+  name: user-service
 spec:
   hosts:
   - "*"
   gateways:
   - istio-system/istio-ingressgateway
   http:
-  # Users API: /user/users -> /v1/users (default to v1)
+  # 1. If header x-user-type: beta is present, route to v2
+  - match:
+    - uri:
+        prefix: /user/users
+      headers:
+        x-user-type:
+          exact: beta
+    rewrite:
+      uri: /v2/users
+    route:
+    - destination:
+        host: user-service
+        subset: v2
+  # 2. Otherwise, route to v1 (default)
   - match:
     - uri:
         prefix: /user/users
@@ -18,4 +31,3 @@ spec:
     - destination:
         host: user-service
         subset: v1
-

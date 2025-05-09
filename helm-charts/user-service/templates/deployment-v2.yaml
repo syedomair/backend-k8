@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: department-service-1
+  name: user-service-2
   labels:
-    app: department-service
-    version: v1
+    app: user-service
+    version: v2
 spec:
   replicas:  1
   selector:
     matchLabels:
-      app: department-service
-      version: v1
+      app: user-service
+      version: v2
   template:
     metadata:
       labels:
-        app: department-service
-        version: v1
+        app: user-service
+        version: v2
     spec:
       containers:
-        - name: department-service
-          image: "department-service:latest"
+        - name: user-service
+          image: "user-service:latest"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8185

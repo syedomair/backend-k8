@@ -1,23 +1,20 @@
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: {{ .Release.Name }}
-  annotations:
-    sidecar.istio.io/inject: "true"
+  name: department-service
 spec:
-  gateways:
-    - app-gateway
   hosts:
-    - "*"
+  - "*"
+  gateways:
+  - istio-system/istio-ingressgateway
   http:
-    - match:
-        - uri:
-            prefix: /department/
-      rewrite:
-        uri: /
-      route:
-        - destination:
-            host: {{ .Release.Name }}
-            port:
-              number: {{ .Values.service.port }}
-
+  # Users API: /department/departments -> /v1/departments (default to v1)
+  - match:
+    - uri:
+        prefix: /department/departments
+    rewrite:
+      uri: /v1/departments
+    route:
+    - destination:
+        host: department-service
+        subset: v1
