@@ -4,14 +4,14 @@ metadata:
   labels:
     app.kubernetes.io/name: user-service
     release: prometheus  
-  name: {{ .Release.Name }}
+  name: user-service
 spec:
-  type: {{ .Values.service.type }}
+  type: ClusterIP
   selector:
-    app: {{ .Release.Name }}
+    app: user-service
   ports:
     - name: http
       protocol: TCP
-      port: {{ .Values.service.port }}
-      targetPort: {{ .Values.containerPort }}
+      port: 5001
+      targetPort: 8185
 
