@@ -1,35 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}
+  name: user-service-1
+  labels:
+    app: user-service
+    version: v1
 spec:
-  replicas:  {{ .Values.replicaCount }}
+  replicas:  1
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
+      app: user-service
+      version: v1
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}
+        app: user-service
+        version: v1
     spec:
       containers:
-        - name: {{ .Release.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: user-service
+          image: "user-service:latest"
+          imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: {{ .Values.containerPort }}
+            - containerPort: 8185
           livenessProbe:
             httpGet:
               path: /health
-              port: {{ .Values.containerPort }}
-            initialDelaySeconds: {{ .Values.initialDelaySeconds }}
-            periodSeconds: {{ .Values.periodSeconds }}
+              port: 8185
+            initialDelaySeconds: 5
+            periodSeconds: 10
           readinessProbe:
             httpGet:
               path: /ready
-              port: {{ .Values.containerPort }}
-            initialDelaySeconds: {{ .Values.initialDelaySeconds }}
-            periodSeconds: {{ .Values.periodSeconds }}
+              port: 8185
+            initialDelaySeconds: 5
+            periodSeconds: 10
           resources:
             requests:
               memory: "64Mi"
@@ -39,9 +44,9 @@ spec:
               cpu: "500m"
           envFrom:
             - configMapRef:
-                name: {{ .Values.configMap.name }}
+                name: all-service-config
             - secretRef:
-                name: {{ .Values.secret.name }}
+                name: all-service-secret
           volumeMounts:
             - name: zap-config
               mountPath: /config/zap-logger-config.json
@@ -52,13 +57,13 @@ spec:
       volumes:
         - name: zap-config
           configMap:
-            name: {{ .Values.zapConfigMap.name }}
+            name: zap-logger-config
             items:
               - key: zap-logger-config.json
                 path: zap-logger-config.json
         - name: gorm-config
           configMap:
-            name: {{ .Values.gormConfigMap.name }}
+            name: gorm-logger-config
             items:
               - key: gorm-logger-config.json
                 path: gorm-logger-config.json

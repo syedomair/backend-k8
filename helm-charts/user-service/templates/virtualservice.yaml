@@ -1,21 +1,21 @@
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: {{ .Release.Name }}
+  name: api-gateway
 spec:
-  gateways:
-    - app-gateway
   hosts:
-    - "*"
+  - "*"
+  gateways:
+  - istio-system/istio-ingressgateway
   http:
-    - match:
-        - uri:
-            prefix: /user/
-      rewrite:
-        uri: /
-      route:
-        - destination:
-            host: {{ .Release.Name }}
-            port:
-              number: {{ .Values.service.port }}
+  # Users API: /user/users -> /v1/users (default to v1)
+  - match:
+    - uri:
+        prefix: /user/users
+    rewrite:
+      uri: /v1/users
+    route:
+    - destination:
+        host: user-service
+        subset: v1
 
